@@ -1,13 +1,30 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <link rel="stylesheet" href="src/main.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vite + TS</title>
+</head>
+
+<body>
+  <h1 className="underline">Hello world!</h1>
+
+  <input type="text" name="new-task" class="border border-black">
+  <button type="submit" name="add-task">add task</button>
+
+  <div class="flex flex-row overflow-scroll">
+    <div id="kanban-board-1" class="kanban-board size-96 border-2 border-red-400 min-w-96 min-h-48"></div>
+    <div id="kanban-board-2" class="kanban-board size-96 border-2 border-red-400 min-w-96 min-h-48"></div>
+    <div id="kanban-board-3" class="kanban-board size-96 border-2 border-red-400 min-w-96 min-h-48"></div>
+    <div id="kanban-board-4" class="kanban-board size-96 border-2 border-red-400 min-w-96 min-h-48"></div>
+  </div>
+  <script type="module" src="/src/main.ts"></script>
+</body>
+
+<button type="submit" name="save">add task</button>
+<button type="submit" name="clear">clear</button>
+
 </html>
