@@ -1,4 +1,5 @@
 import './main.css'
+import { KanbanCard } from "./kanbanCard.ts";
 
 const BOARD_BACKLOG_ID = 'kanban-board-1';
 const BOARD_DOING_ID = 'kanban-board-2';
@@ -19,7 +20,11 @@ let tasksItem: TasksItem = {
   doneTasks: [],
 };
 
-let dragged: HTMLDivElement;
+export let dragged: KanbanCard;
+
+export const setDragged = (card: KanbanCard) => {
+  dragged = card
+}
 
 window.onload = (eLoad) => {
   let tasks = JSON.parse(window.localStorage.getItem("tasks")!)
@@ -30,28 +35,9 @@ window.onload = (eLoad) => {
   console.log("backlog: ", tasksItem.backlogTasks);
 
   tasksItem.backlogTasks.forEach(task => {
-    let backlogCard = setAsCard(task);
-    backlogBoard.append(backlogCard);
+    let backlogCard = new KanbanCard(task)
+    backlogBoard.append(backlogCard.getElement);
   });
-}
-
-const setAsCard = (task: string): HTMLDivElement => {
-  let newTodoCard = document.createElement("div");
-  newTodoCard.innerText = task;
-  newTodoCard.draggable = true
-  newTodoCard.className = `kanban-card size-24 border-2 border-yellow-700`
-
-  newTodoCard.ondragstart = (eDragStart) => {
-    console.log(eDragStart.target);
-    console.log("card is dragged");
-    dragged = eDragStart.target as HTMLDivElement;
-  }
-
-  newTodoCard.ondragend = (eDragEnd) => {
-    console.log("card is dropped");
-  }
-
-  return newTodoCard;
 }
 
 const kanbanBoards = Array.from(document.getElementsByClassName('kanban-board'));
@@ -68,7 +54,7 @@ const setAsDropZone = (kanbanBoard: HTMLDivElement) => {
 
     //  prevent card to be inside another card
     if (target.classList.contains(`kanban-board`)) {
-      target.appendChild(dragged);
+      target.appendChild(dragged.getElement);
       switch (target.id) {
         case BOARD_BACKLOG_ID:
           console.log('new backlog card');
@@ -78,7 +64,7 @@ const setAsDropZone = (kanbanBoard: HTMLDivElement) => {
         case BOARD_DOING_ID:
           console.log('dropped on doing');
           // add task to doing
-          tasksItem.doingTasks.push(dragged.innerText)
+          tasksItem.doingTasks.push(dragged.getElement.innerText)
           break;
 
         case BOARD_REVIEW_ID:
@@ -109,8 +95,8 @@ submitBtn.onclick = (eClick) => {
   console.log(newTaskInput.value);
 
   tasksItem.backlogTasks = [...tasksItem.backlogTasks, newTaskInput.value]
-  let newTodoCard = setAsCard(newTaskInput.value);
-  backlogBoard.append(newTodoCard);
+  let newTodoCard = new KanbanCard(newTaskInput.value);
+  backlogBoard.append(newTodoCard.getElement);
 }
 
 const saveBtn = document.getElementsByName('save')[0] as HTMLButtonElement
