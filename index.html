@@ -15,12 +15,13 @@
   <input type="text" name="new-task" class="border border-black">
   <button type="submit" name="add-task">add task</button>
 
-  <div class="flex flex-row overflow-scroll">
-    <div id="kanban-board-1" class="kanban-board size-96 border-2 border-red-400 min-w-96 min-h-48"></div>
-    <div id="kanban-board-2" class="kanban-board size-96 border-2 border-red-400 min-w-96 min-h-48"></div>
-    <div id="kanban-board-3" class="kanban-board size-96 border-2 border-red-400 min-w-96 min-h-48"></div>
-    <div id="kanban-board-4" class="kanban-board size-96 border-2 border-red-400 min-w-96 min-h-48"></div>
+  <div id="task-1" class="kanban__item max-w-20 bg-red-500" draggable="true">
+    <div class="kanban__item-input" contenteditable>asd</div>
   </div>
+
+  <div id="board-container" class="flex flex-row overflow-scroll">
+  </div>
+
   <script type="module" src="/src/main.ts"></script>
 </body>
 
