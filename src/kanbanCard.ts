@@ -1,6 +1,8 @@
 import Component from "./component";
+import { kanbanStore } from "./main";
 
 export default class KanbanCard extends Component {
+    static dragged: KanbanCard
     element: HTMLDivElement;
     task: string;
 
@@ -26,14 +28,16 @@ export default class KanbanCard extends Component {
         // element behaviour
         element.ondragstart = (ev) => {
             // ev.preventDefault()
-            ev.dataTransfer?.clearData();
             let target = ev.currentTarget!
-            // Set the drag's format and data.
-            // Use the event target's id for the data
-            ev.dataTransfer?.setData("text/plain", element.id);
+            KanbanCard.dragged = this
+            console.log(KanbanCard.dragged)
             console.log(element.id)
             console.log(ev.dataTransfer)
         }
         return element
+    }
+
+    save = (boardId: string) => {
+        kanbanStore.add(boardId, this)
     }
 }

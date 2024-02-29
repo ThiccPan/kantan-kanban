@@ -1,4 +1,5 @@
 import Component from "./component"
+import KanbanCard from "./kanbanCard"
 
 export default class KanbanBoard extends Component {
     element: HTMLDivElement
@@ -37,10 +38,8 @@ export default class KanbanBoard extends Component {
             console.log("dropped")
 
             let target = ev.target as HTMLDivElement;
-            let dataId = ev.dataTransfer!.getData("text")
-            let data = document.getElementById(dataId) as HTMLDivElement
-            console.log(document.getElementById(dataId))
-            target.appendChild(data);
+            target.appendChild(KanbanCard.dragged.element);
+            KanbanCard.dragged.save(this.id)
         }
 
         return element
