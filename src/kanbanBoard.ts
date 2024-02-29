@@ -1,14 +1,16 @@
-export default class KanbanBoard {
+import Component from "./component"
+
+export default class KanbanBoard extends Component {
     element: HTMLDivElement
     constructor(
         public id: string,
         public title: string
     ) {
-        this.element = this.renderBoard()
-        // this.element.addEventListener()
+        super()
+        this.element = this.createBoard()
     }
 
-    private readonly renderBoard = () => {
+    private readonly createBoard = () => {
         let element = document.createElement("div")
         element.id = this.id
         element.classList.add(
@@ -37,6 +39,7 @@ export default class KanbanBoard {
             let target = ev.target as HTMLDivElement;
             let dataId = ev.dataTransfer!.getData("text")
             let data = document.getElementById(dataId) as HTMLDivElement
+            console.log(document.getElementById(dataId))
             target.appendChild(data);
         }
 
