@@ -39,7 +39,8 @@ export default class KanbanBoard extends Component {
 
             let target = ev.target as HTMLDivElement;
             target.appendChild(KanbanCard.dragged.element);
-            KanbanCard.dragged.save(this.id)
+            KanbanCard.dragged.update(this.id)
+            KanbanCard.dragged.currBoardId = this.id
         }
 
         return element
