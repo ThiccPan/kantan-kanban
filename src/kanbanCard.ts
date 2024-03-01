@@ -1,15 +1,23 @@
 import Component from "./component";
 import { kanbanStore } from "./main";
+import { v4 as uuidv4 } from 'uuid';
 
 export default class KanbanCard extends Component {
     static dragged: KanbanCard
     element: HTMLDivElement;
     task: string;
+    id: string;
+    currBoardId: string
 
-    constructor(task: string) {
+    constructor(task: string, boardId: string) {
         super()
         this.task = task
+        this.id = uuidv4()
+        this.currBoardId = boardId
+
         this.element = this.createElement()
+        console.log("TASK created: ")
+        kanbanStore.add(boardId, this)
     }
 
     private readonly createElement = () => {
@@ -22,13 +30,13 @@ export default class KanbanCard extends Component {
         // editable element
         let input = document.createElement("div")
         input.contentEditable = "true"
+        input.textContent = this.task
         input.classList.value = "kanban__item-input"
         element.append(input)
 
         // element behaviour
         element.ondragstart = (ev) => {
             // ev.preventDefault()
-            let target = ev.currentTarget!
             KanbanCard.dragged = this
             console.log(KanbanCard.dragged)
             console.log(element.id)
@@ -37,7 +45,7 @@ export default class KanbanCard extends Component {
         return element
     }
 
-    save = (boardId: string) => {
-        kanbanStore.add(boardId, this)
+    update = (boardId: string) => {
+        kanbanStore.update(this.currBoardId, {task: this, newBoardId: boardId})
     }
 }
