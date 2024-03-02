@@ -1,14 +1,14 @@
 import KanbanCard from "./kanbanCard"
 
-interface boardStorage {
+interface BoardStorage {
     tasks: KanbanCard[]
 }
 
 export default class KanbanStore {
     add(boardId: string, data: KanbanCard): boolean {
         let fetched = localStorage.getItem(boardId)
-        let parsedData: boardStorage = { 
-            tasks: [] 
+        let parsedData: BoardStorage = {
+            tasks: []
         }
         if (fetched) {
             parsedData = JSON.parse(fetched)
@@ -22,7 +22,7 @@ export default class KanbanStore {
     update(oldBoardId: string, data: { task: KanbanCard, newBoardId: string }) {
         console.log(`old board: ${oldBoardId} -> new board: ${data.newBoardId}`)
         let fetched = localStorage.getItem(oldBoardId)
-        let parsedData: boardStorage = {
+        let parsedData: BoardStorage = {
             tasks: []
         }
         if (fetched) {
@@ -36,7 +36,7 @@ export default class KanbanStore {
         localStorage.setItem(oldBoardId, JSON.stringify(parsedData))
 
         let newFetched = localStorage.getItem(data.newBoardId)
-        let newparsedData: boardStorage = {
+        let newparsedData: BoardStorage = {
             tasks: []
         }
 
@@ -47,5 +47,11 @@ export default class KanbanStore {
         newparsedData.tasks.push(data.task)
         localStorage.setItem(data.newBoardId, JSON.stringify(newparsedData))
         return true
+    }
+
+    getAll(boardId: string) {
+        let boardDataString = localStorage.getItem(boardId)
+        let a = boardDataString !== null ? JSON.parse(boardDataString) as BoardStorage : { tasks: [] }
+        return a
     }
 }
