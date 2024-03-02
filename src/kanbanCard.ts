@@ -2,22 +2,27 @@ import Component from "./component";
 import { kanbanStore } from "./main";
 import { v4 as uuidv4 } from 'uuid';
 
+interface ICardProps {
+    id?: string,
+    task: string,
+    boardId: string,
+}
+
 export default class KanbanCard extends Component {
     static dragged: KanbanCard
     element: HTMLDivElement;
     task: string;
-    id: string;
+    id: string = uuidv4();
     currBoardId: string
 
-    constructor(task: string, boardId: string) {
+    constructor(prop: ICardProps) {
         super()
-        this.task = task
-        this.id = uuidv4()
-        this.currBoardId = boardId
+        if (prop.id) { this.id = prop.id }
+        this.task = prop.task
+        this.currBoardId = prop.boardId
 
         this.element = this.createElement()
         console.log("TASK created: ")
-        kanbanStore.add(boardId, this)
     }
 
     private readonly createElement = () => {
@@ -45,7 +50,11 @@ export default class KanbanCard extends Component {
         return element
     }
 
+    add = (boardId: string) => {
+        kanbanStore.add(boardId, this)
+    }
+
     update = (boardId: string) => {
-        kanbanStore.update(this.currBoardId, {task: this, newBoardId: boardId})
+        kanbanStore.update(this.currBoardId, { task: this, newBoardId: boardId })
     }
 }
