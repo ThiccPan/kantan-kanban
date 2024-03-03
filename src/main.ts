@@ -12,6 +12,7 @@ export const kanbanStore = new KanbanStore()
 let boards: Map<string, KanbanBoard> = new Map()
 boards.set("board-1", new KanbanBoard("board-1", "backlog"))
 boards.set("board-2", new KanbanBoard("board-2", "doing"))
+boards.set("board-3", new KanbanBoard("board-3", "done"))
 
 boards.forEach(board => {
     board.render(boardContainer)
